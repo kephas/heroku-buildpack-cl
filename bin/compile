@@ -26,10 +26,10 @@ log "Installing SBCL..."
     env SBCL_HOME= INSTALL_ROOT="$BUILD_DIR" sh install.sh 2>&1 >/dev/null | { grep -v doc/manual || true; } | indent
 )
 
-log "Compiling sources..."
-env LANG=en_US.UTF-8 SBCL_HOME="$BUILD_DIR/lib/sbcl" "$BUILD_DIR/bin/sbcl" --script "$(dirname $0)/../compile.lisp" "$BUILD_DIR" "$CACHE_DIR" |& indent
-
 if [ -d "$CACHE_DIR/quicklisp" ]; then
     log "Copying Quicklisp..."
     cp -a "$CACHE_DIR/quicklisp/" "$BUILD_DIR/"
 fi
+log "Compiling sources..."
+env LANG=en_US.UTF-8 SBCL_HOME="$BUILD_DIR/lib/sbcl" "$BUILD_DIR/bin/sbcl" --script "$(dirname $0)/../compile.lisp" "$BUILD_DIR" "$CACHE_DIR" |& indent
+cp -a "$BUILD_DIR/quicklisp/" "$CACHE_DIR/" # preserve QL FASLs
