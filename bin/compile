@@ -32,4 +32,5 @@ if [ -d "$CACHE_DIR/quicklisp" ]; then
 fi
 log "Compiling sources..."
 env LANG=en_US.UTF-8 SBCL_HOME="$BUILD_DIR/lib/sbcl" "$BUILD_DIR/bin/sbcl" --script "$(dirname $0)/../compile.lisp" "$BUILD_DIR" "$CACHE_DIR" |& indent
+find $BUILD_DIR/quicklisp/quicklisp -name *.fasl -print0 | xargs -0 rm
 cp -a "$BUILD_DIR/quicklisp/" "$CACHE_DIR/" # preserve QL FASLs
